@@ -1,0 +1,14 @@
+# Ignore artifacts:
+build
+coverage
+
+.prettierrc
+package-lock.json
+package.json
+README.md
+index.html
+src/vite-env.d.ts
+vite.config.ts
+tsconfig.json
+tsconfig.app.json
+tsconfig.node.json
