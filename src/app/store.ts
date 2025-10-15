@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import { coreApi } from '../services/coreApi.ts'
 
+const isDevToolsEnabled = import.meta.env.DEV && import.meta.env.VITE_REDUX_DEVTOOLS === 'enabled'
+
 export const store = configureStore({
   reducer: {
     // Добавляем редюсер RTK Query
@@ -9,6 +11,7 @@ export const store = configureStore({
   },
   // Подключаем middleware RTK Query
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(coreApi.middleware),
+  devTools: isDevToolsEnabled, // ← управляем через .env
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
