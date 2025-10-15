@@ -1,9 +1,16 @@
+import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react-swc'
 
 import { defineConfig } from 'vite'
-import svgr from 'vite-plugin-svgr'; // Вы не используете SVG как компоненты, а только как картинки → плагин вам не нужен.
+
+import path from 'node:path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [svgr(),react()],
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
 })

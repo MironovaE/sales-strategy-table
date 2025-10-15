@@ -43,6 +43,14 @@ export default tseslint.config([
       //Форматирование
       eslintPluginPrettierRecommended, // Форматирование кода (должен быть последним элементом)
     ],
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: ['./tsconfig.json', './tsconfig.app.json', './tsconfig.node.json'],
+          tsconfigRootDir: import.meta.dirname,
+        },
+      },
+    },
     rules: {
       'sonarjs/fixme-tag': 'off', // Выключаем правило фиксов SonarJS
       'sonarjs/pseudo-random': 'off', // Выключаем проверку псевдослучайных чисел
@@ -65,7 +73,7 @@ export default tseslint.config([
     languageOptions: {
       ecmaVersion: 2020,
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: ['./tsconfig.json', './tsconfig.app.json', './tsconfig.node.json'],
         tsconfigRootDir: import.meta.dirname,
       },
       globals: {
@@ -78,5 +86,12 @@ export default tseslint.config([
   {
     files: ['vite-env.d.ts'],
     extends: [tseslint.configs.disableTypeChecked],
+  },
+  // ✅ Отключаем fast refresh правило для компонентов shadcn
+  {
+    files: ['src/components/ui/**/*.{ts,tsx}'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
   },
 ])

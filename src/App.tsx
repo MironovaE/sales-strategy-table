@@ -1,39 +1,16 @@
-import { useState } from 'react'
-
-import reactLogo from './assets/react.svg'
-import { useGetSalesStrategyDetailQuery } from './services/salesStrategyApi.ts'
-
-import viteLogo from '/vite.svg'
-
-import './App.css'
+import { Button } from '@/components/ui/button'
+import { useGetSalesStrategyDetailQuery } from '@/services/salesStrategyApi.ts'
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  const { data, isLoading, error } = useGetSalesStrategyDetailQuery(1)
+  const { data, isLoading, error } = useGetSalesStrategyDetailQuery({ page: 1, limit: 10 })
   console.log('data', data)
-  console.log('isLoading', isLoading)
-  console.log('error', error)
+  if (isLoading) return <div className="text-center p-10">Загрузка...</div>
+  if (error) return <div className="text-center p-10 text-red-500">Ошибка загрузки</div>
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+    <div className="flex min-h-screen items-center justify-center">
+      <Button>Тык</Button>
+    </div>
   )
 }
 
