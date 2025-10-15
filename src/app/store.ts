@@ -1,7 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 
+import { coreApi } from '../services/coreApi.ts'
+
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    // Добавляем редюсер RTK Query
+    [coreApi.reducerPath]: coreApi.reducer,
+  },
+  // Подключаем middleware RTK Query
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(coreApi.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

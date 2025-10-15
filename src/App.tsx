@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import reactLogo from './assets/react.svg'
+import { useGetSalesStrategyDetailQuery } from './services/salesStrategyApi.ts'
 
 import viteLogo from '/vite.svg'
 
@@ -8,6 +9,11 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  const { data, isLoading, error } = useGetSalesStrategyDetailQuery(1)
+  console.log('data', data)
+  console.log('isLoading', isLoading)
+  console.log('error', error)
 
   return (
     <>
