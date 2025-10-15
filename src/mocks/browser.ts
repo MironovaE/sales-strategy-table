@@ -1,5 +1,5 @@
 import { setupWorker } from 'msw/browser'
-import { salesStrategyHandlers } from './handlers/salesStrategyHandlers'
+import { salesStrategyHandlers } from './handlers/salesStrategyHandlers/salesStrategyHandlers.ts'
 
 // Объединяем все хендлеры (в будущем можно добавить другие)
 const handlers = [...salesStrategyHandlers]

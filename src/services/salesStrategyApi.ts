@@ -3,11 +3,11 @@ import { coreApi } from './coreApi.ts'
 
 export const salesStrategyApi = coreApi.enhanceEndpoints({ addTagTypes: ['SalesStrategy'] }).injectEndpoints({
   endpoints: build => ({
-    getSalesStrategyDetail: build.query<unknown, number>({
-      query: page => ({
+    getSalesStrategyDetail: build.query<unknown, { page: number; limit?: number }>({
+      query: ({ page, limit = 10 }) => ({
         url: '/salesStrategy/detail',
         method: 'GET',
-        params: { page }, // ← автоматически станет ?page=2
+        params: { page, limit },
       }),
       transformResponse: (response: any) => response.result,
       providesTags: ['SalesStrategy'],
