@@ -1,11 +1,10 @@
-/* eslint-disable */
-import { http, HttpResponse } from 'msw'
+import { delay, http, HttpResponse } from 'msw'
 import { salesStrategyDetailData } from './salesStrategyDetailData'
 
-const LIMIT = 10 // ← фиксированный лимит, как на фронтенде
+const LIMIT = 10
 
 export const salesStrategyHandlers = [
-  http.get('/salesStrategy/detail', ({ request }) => {
+  http.get('/salesStrategy/detail', async ({ request }) => {
     const url = new URL(request.url)
     const page = Math.max(1, Number(url.searchParams.get('page')) || 1)
 
@@ -15,7 +14,9 @@ export const salesStrategyHandlers = [
 
     const result = allData.slice(startIndex, endIndex)
 
-    // Возвращаем ТОЛЬКО { result: [...] }, как ожидает transformResponse
+    // Добавляем задержку (например, 500 мс)
+    await delay(500)
+
     return HttpResponse.json({
       result,
     })
