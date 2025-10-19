@@ -7,8 +7,8 @@ import { TotalCount } from '@/SalesBudgetPage/totalCount.tsx'
 import {
   type ColumnDef,
   getCoreRowModel,
-  getPaginationRowModel,
   type PaginationState,
+  type SortingState,
   type Updater,
   useReactTable,
 } from '@tanstack/react-table'
@@ -21,6 +21,8 @@ interface DataTableProps<TData, TValue> {
   pagination: PaginationState
   onPaginationChange: (updater: Updater<PaginationState>) => void
   onPageSizeChange: (size: number) => void
+  sorting: SortingState
+  onSortingChange: (updater: Updater<SortingState>) => void
 }
 
 export function DataTable<TData, TValue>({
@@ -31,18 +33,22 @@ export function DataTable<TData, TValue>({
   pagination,
   onPaginationChange,
   onPageSizeChange,
+  sorting,
+  onSortingChange,
 }: Readonly<DataTableProps<TData, TValue>>) {
   const table = useReactTable({
     data,
     columns,
     pageCount: Math.ceil(total / pagination.pageSize),
+    manualPagination: true,
+    manualSorting: true,
     state: {
       pagination,
+      sorting,
     },
-    manualPagination: true, // важно для серверной пагинации
     onPaginationChange,
+    onSortingChange,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
   })
 
   return (
