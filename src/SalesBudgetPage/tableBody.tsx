@@ -1,6 +1,7 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
+import { computePinnedOffset } from '@/SalesBudgetPage/columns/helpers.tsx'
 import { type ColumnDef, flexRender, type Row } from '@tanstack/react-table'
 
 interface DataTableBodyProps<TData, TValue> {
@@ -31,26 +32,36 @@ export const DataTableBody = <TData, TValue>({ isLoading, rows, columns }: DataT
       </TableRow>
     )
   } else {
-    content = rows.map(row => (
-      <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-        {row.getVisibleCells().map(cell => {
-          const pinned = cell.column.getIsPinned()
+    content = rows.map(row => {
+      const cells = row.getVisibleCells()
+      return (
+        <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+          {cells.map((cell, cellIndex) => {
+            const pinned = cell.column.getIsPinned()
+            const size = cell.column.getSize() // ← реальная ширина столбца
+            const style: React.CSSProperties = {}
 
-          return (
-            <TableCell
-              key={cell.id}
-              className={cn(
-                'bg-background', // ← обязательно для pinned-ячеек!
-                pinned === 'left' && 'sticky left-0 z-10',
-                pinned === 'right' && 'sticky right-0 z-10',
-              )}
-            >
-              {flexRender(cell.column.columnDef.cell, cell.getContext())}
-            </TableCell>
-          )
-        })}
-      </TableRow>
-    ))
+            if (pinned === 'left') {
+              style.left = computePinnedOffset(cells, cellIndex, 'left')
+              style.width = size // ← ФИКСИРУЕМ ШИРИНУ!
+            } else if (pinned === 'right') {
+              style.right = computePinnedOffset(cells, cellIndex, 'right')
+              style.width = size // ← ФИКСИРУЕМ ШИРИНУ!
+            }
+
+            return (
+              <TableCell
+                key={cell.id}
+                className={cn('bg-background', (pinned === 'left' || pinned === 'right') && 'sticky z-10')}
+                style={style}
+              >
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </TableCell>
+            )
+          })}
+        </TableRow>
+      )
+    })
   }
 
   return <TableBody>{content}</TableBody>

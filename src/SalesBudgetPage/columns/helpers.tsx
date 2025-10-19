@@ -38,3 +38,32 @@ export const renderSortableHeader = (column: Column<SalesBudgetResult, unknown>,
     </div>
   )
 }
+
+export const computePinnedOffset = (
+  headersOrCells: { column: { getIsPinned(): 'left' | 'right' | false; getSize(): number } }[],
+  currentIndex: number,
+  direction: 'left' | 'right',
+): number => {
+  let offset = 0
+
+  if (direction === 'left') {
+    // Суммируем размеры всех left-pinned столбцов ДО текущего
+    for (let i = 0; i < currentIndex; i++) {
+      const item = headersOrCells[i]
+      if (item.column.getIsPinned() === 'left') {
+        offset += item.column.getSize()
+      }
+    }
+  } else if (direction === 'right') {
+    const total = headersOrCells.length
+    // Суммируем размеры всех right-pinned столбцов ПОСЛЕ текущего (справа → влево)
+    for (let i = total - 1; i > currentIndex; i--) {
+      const item = headersOrCells[i]
+      if (item.column.getIsPinned() === 'right') {
+        offset += item.column.getSize()
+      }
+    }
+  }
+
+  return offset
+}
