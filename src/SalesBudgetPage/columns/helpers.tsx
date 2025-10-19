@@ -17,7 +17,7 @@ export const renderSortableHeader = (column: Column<SalesBudgetResult, unknown>,
   const isSorted = column.getIsSorted()
 
   const handleSortClick = (e: React.MouseEvent) => {
-    e.stopPropagation() // ← критически важно!
+    e.stopPropagation()
     column.toggleSorting?.(isSorted === 'asc')
   }
 
@@ -25,7 +25,12 @@ export const renderSortableHeader = (column: Column<SalesBudgetResult, unknown>,
     <div className="flex w-full items-center justify-between gap-2 pr-1">
       <span className="select-none">{title}</span>
       <div className="flex items-center gap-0.5">
-        <Button variant="ghost" size="icon" className="h-6 w-6 p-0 cursor-pointer" onClick={handleSortClick}>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-6 w-6 p-0 hover:bg-transparent hover:text-foreground cursor-pointer"
+          onClick={handleSortClick}
+        >
           <SortableHeaderIcon isSorted={isSorted} />
         </Button>
         <ColumnHeaderMenu column={column} />

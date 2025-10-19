@@ -52,8 +52,8 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="overflow-hidden rounded-md border">
-      <Table>
+    <div className="overflow-x-auto rounded-md border">
+      <Table className="min-w-full">
         <DataTableHeader headers={table.getHeaderGroups()} />
         <DataTableBody isLoading={isLoading} rows={table.getRowModel().rows} columns={columns} />
       </Table>

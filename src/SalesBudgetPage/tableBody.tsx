@@ -1,5 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton'
-import { TableBody, TableCell, TableRow } from '@/components/ui/table' // ← добавлен TableBody
+import { TableBody, TableCell, TableRow } from '@/components/ui/table'
+import { cn } from '@/lib/utils'
 import { type ColumnDef, flexRender, type Row } from '@tanstack/react-table'
 
 interface DataTableBodyProps<TData, TValue> {
@@ -9,12 +10,10 @@ interface DataTableBodyProps<TData, TValue> {
 }
 
 export const DataTableBody = <TData, TValue>({ isLoading, rows, columns }: DataTableBodyProps<TData, TValue>) => {
-  // Подготовка содержимого тела таблицы
   let content = null
 
   if (isLoading) {
     content = Array.from({ length: 5 }).map((_, rowIndex) => (
-      // FIXME добавить нормальный id
       <TableRow key={rowIndex}>
         {columns.map((_, colIndex) => (
           <TableCell key={colIndex}>
@@ -34,9 +33,22 @@ export const DataTableBody = <TData, TValue>({ isLoading, rows, columns }: DataT
   } else {
     content = rows.map(row => (
       <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-        {row.getVisibleCells().map(cell => (
-          <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-        ))}
+        {row.getVisibleCells().map(cell => {
+          const pinned = cell.column.getIsPinned()
+
+          return (
+            <TableCell
+              key={cell.id}
+              className={cn(
+                'bg-background', // ← обязательно для pinned-ячеек!
+                pinned === 'left' && 'sticky left-0 z-10',
+                pinned === 'right' && 'sticky right-0 z-10',
+              )}
+            >
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            </TableCell>
+          )
+        })}
       </TableRow>
     ))
   }
