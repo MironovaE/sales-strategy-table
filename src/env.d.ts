@@ -1,4 +1,4 @@
-// src/env.d.ts
+// env.d.ts
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {

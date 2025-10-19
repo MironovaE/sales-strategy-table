@@ -27,7 +27,7 @@ export const DataTableBody = <TData, TValue>({ isLoading, rows, columns }: DataT
     content = (
       <TableRow>
         <TableCell colSpan={columns.length} className="h-24 text-center">
-          No results.
+          Нет данных
         </TableCell>
       </TableRow>
     )

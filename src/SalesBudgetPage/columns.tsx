@@ -1,25 +1,5 @@
+import type { SalesBudgetResult } from '@/services/salesStrategy/models.ts'
 import type { ColumnDef } from '@tanstack/react-table'
-
-export interface SalesBudget {
-  administrativeDistrict: string
-  district: string
-  address: string
-  type: string
-  countItem: number
-  currentRemainingUnits: number
-  publishedAuctionsCount: number
-  publishedPublicOffersCount: number
-  remainingToPublish: number
-  averageArea: number
-  forecastedBuildingPermits: Date
-  firstAuctionStartDate: Date
-  forecastedCommissioningDate: Date
-  commissioningDatePerPd: string
-  constructionProgressPercent: number
-  liquidityCategory: number
-  startingPrice: number
-  status: string
-}
 
 const formatISODate = (dateStr: string) => {
   if (!dateStr) return ''
@@ -30,7 +10,7 @@ const formatISODate = (dateStr: string) => {
   return date.toLocaleDateString('ru-RU') // например: "04.09.2025"
 }
 
-export const columns: ColumnDef<SalesBudget>[] = [
+export const columns: ColumnDef<SalesBudgetResult>[] = [
   {
     accessorKey: 'administrativeDistrict',
     header: 'Округ',

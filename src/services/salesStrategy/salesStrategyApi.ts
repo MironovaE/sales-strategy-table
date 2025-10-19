@@ -1,16 +1,16 @@
-/* eslint-disable */
-import { coreApi } from './coreApi.ts'
-import type { SalesBudget } from '@/SalesBudgetPage/columns.tsx'
+import { coreApi } from '@/services/coreApi.ts'
+import type { ApiResponseDetail, Pagination } from '@/services/models.ts'
+import type { SalesStrategyResponse } from '@/services/salesStrategy/models.ts'
 
 export const salesStrategyApi = coreApi.enhanceEndpoints({ addTagTypes: ['SalesStrategy'] }).injectEndpoints({
   endpoints: build => ({
-    getSalesStrategyDetail: build.query<SalesBudget[], { page: number; limit?: number }>({
+    getSalesStrategyDetail: build.query<SalesStrategyResponse, Pagination>({
       query: ({ page, limit = 10 }) => ({
         url: '/salesStrategy/detail',
         method: 'GET',
         params: { page, limit },
       }),
-      transformResponse: (response: any) => response.result,
+      transformResponse: (response: ApiResponseDetail<SalesStrategyResponse>) => response.result,
       providesTags: ['SalesStrategy'],
     }),
   }),
