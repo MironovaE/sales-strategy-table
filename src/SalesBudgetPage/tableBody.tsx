@@ -43,16 +43,18 @@ export const DataTableBody = <TData, TValue>({ isLoading, rows, columns }: DataT
 
             if (pinned === 'left') {
               style.left = computePinnedOffset(cells, cellIndex, 'left')
-              style.width = size // ← ФИКСИРУЕМ ШИРИНУ!
+              style.width = size
+              style.zIndex = 10 // z-index для pinned колонок в теле
             } else if (pinned === 'right') {
               style.right = computePinnedOffset(cells, cellIndex, 'right')
-              style.width = size // ← ФИКСИРУЕМ ШИРИНУ!
+              style.width = size
+              style.zIndex = 10
             }
 
             return (
               <TableCell
                 key={cell.id}
-                className={cn('bg-background', (pinned === 'left' || pinned === 'right') && 'sticky z-10')}
+                className={cn('bg-background', (pinned === 'left' || pinned === 'right') && 'sticky')}
                 style={style}
               >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

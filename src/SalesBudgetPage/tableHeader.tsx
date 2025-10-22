@@ -10,7 +10,7 @@ interface DataTableHeaderProps<TData> {
 }
 
 export const DataTableHeader = <TData,>({ headers }: DataTableHeaderProps<TData>) => (
-  <TableHeader>
+  <TableHeader className="sticky top-0 z-20 bg-background shadow-sm">
     {headers.map(headerGroup => (
       <TableRow key={headerGroup.id}>
         {headerGroup.headers.map((header, idx) => {
@@ -26,15 +26,20 @@ export const DataTableHeader = <TData,>({ headers }: DataTableHeaderProps<TData>
           if (pinned === 'left') {
             style.left = Math.round(computePinnedOffset(headerGroup.headers, idx, 'left'))
             style.marginRight = '-1px' // ← устраняет 1px зазор
+            style.zIndex = 30 // Высший z-index для pinned колонок в заголовке
           } else if (pinned === 'right') {
             style.right = Math.round(computePinnedOffset(headerGroup.headers, idx, 'right'))
             style.marginLeft = '-1px'
+            style.zIndex = 30
           }
 
           return (
             <TableHead
               key={header.id}
-              className={cn('bg-background', (pinned === 'left' || pinned === 'right') && 'sticky z-10')}
+              className={cn(
+                'bg-background border-b border-border',
+                (pinned === 'left' || pinned === 'right') && 'sticky',
+              )}
               style={style}
             >
               {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}

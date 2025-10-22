@@ -1,10 +1,12 @@
 import { useCallback, useMemo, useState } from 'react'
 
-import { Table } from '@/components/ui/table'
+import { ColumnManagementContext } from '@/SalesBudgetPage/columns/columnManagementContext.tsx'
+import { columns } from '@/SalesBudgetPage/columns/columns.tsx'
 import { ColumnVisibilityModal } from '@/SalesBudgetPage/columns/columnVisibilityModal'
 import { renderSortableHeader } from '@/SalesBudgetPage/columns/helpers'
 import { PageSizeSelector } from '@/SalesBudgetPage/pageSizeSelector'
 import { ServerPagination } from '@/SalesBudgetPage/serverPagination'
+import { StickyTable } from '@/SalesBudgetPage/stickyTable.tsx'
 import { DataTableBody } from '@/SalesBudgetPage/tableBody'
 import { DataTableHeader } from '@/SalesBudgetPage/tableHeader'
 import { TotalCount } from '@/SalesBudgetPage/totalCount'
@@ -86,11 +88,15 @@ export function DataTable({
   const allColumns = table.getAllColumns()
 
   return (
-    <div className="overflow-x-auto rounded-md border">
-      <Table className="min-w-full">
-        <DataTableHeader headers={table.getHeaderGroups()} />
-        <DataTableBody isLoading={isLoading} rows={table.getRowModel().rows} columns={processedColumns} />
-      </Table>
+    <div className="rounded-md border">
+      <ColumnManagementContext value={allColumns}>
+        <div className="relative h-[82vh] overflow-auto">
+          <StickyTable className="min-w-full">
+            <DataTableHeader headers={table.getHeaderGroups()} />
+            <DataTableBody isLoading={isLoading} rows={table.getRowModel().rows} columns={columns} />
+          </StickyTable>
+        </div>
+      </ColumnManagementContext>
 
       <ColumnVisibilityModal columns={allColumns} open={isColumnModalOpen} onOpenChange={setIsColumnModalOpen} />
 
