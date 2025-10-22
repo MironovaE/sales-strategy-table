@@ -17,6 +17,9 @@ import reactDom from 'eslint-plugin-react-dom'
 export default tseslint.config([
   globalIgnores(['dist']),
   {
+    ignores: ['src/components/ui/**/*'], // 👈 Полностью игнорируем папку
+  },
+  {
     files: ['**/*.{ts,tsx}'],
     plugins: {
       unicorn: eslintPluginUnicorn, //Широкий спектр правил для улучшения чистоты и ясности кода, устранения малозначимых конструктивных недостатков.
@@ -86,18 +89,5 @@ export default tseslint.config([
   {
     files: ['vite-env.d.ts'],
     extends: [tseslint.configs.disableTypeChecked],
-  },
-  // ✅ Отключаем fast refresh правило для компонентов shadcn
-  {
-    files: ['src/components/ui/**/*.{ts,tsx}'],
-    rules: {
-      'react-refresh/only-export-components': 'off',
-      'sonarjs/prefer-read-only-props': 'off',
-      'sonarjs/table-header': 'off',
-      'sonarjs/deprecation': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      // На всякий случай (хотя в TS должен быть неактивен):
-      'react/prop-types': 'off',
-    },
   },
 ])

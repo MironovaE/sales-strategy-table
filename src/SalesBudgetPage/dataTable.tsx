@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { ColumnManagementContext } from '@/SalesBudgetPage/columns/columnManagementContext.tsx'
 import { columns } from '@/SalesBudgetPage/columns/columns.tsx'
@@ -13,6 +13,7 @@ import { TotalCount } from '@/SalesBudgetPage/totalCount'
 import type { SalesBudgetResult } from '@/services/salesStrategy/models'
 import {
   type ColumnDef,
+  type ColumnSizingState,
   getCoreRowModel,
   type HeaderContext,
   type PaginationState,
@@ -52,6 +53,18 @@ export function DataTable({
 }: Readonly<DataTableProps>) {
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false)
 
+  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('table-column-sizes')
+      return saved ? (JSON.parse(saved) as ColumnSizingState) : {}
+    }
+    return {}
+  })
+
+  useEffect(() => {
+    localStorage.setItem('table-column-sizes', JSON.stringify(columnSizing))
+  }, [columnSizing])
+
   const openColumnModal = useCallback(() => {
     setIsColumnModalOpen(true)
   }, [])
@@ -79,10 +92,14 @@ export function DataTable({
     state: {
       pagination,
       sorting,
+      columnSizing,
     },
     onPaginationChange,
     onSortingChange,
+    onColumnSizingChange: setColumnSizing,
+    columnResizeMode: 'onChange', // ← фиксированное значение
     getCoreRowModel: getCoreRowModel(),
+    enableColumnResizing: true,
   })
 
   const allColumns = table.getAllColumns()

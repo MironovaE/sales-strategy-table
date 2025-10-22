@@ -38,16 +38,18 @@ export const DataTableBody = <TData, TValue>({ isLoading, rows, columns }: DataT
         <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
           {cells.map((cell, cellIndex) => {
             const pinned = cell.column.getIsPinned()
-            const size = cell.column.getSize() // ← реальная ширина столбца
-            const style: React.CSSProperties = {}
+            const size = cell.column.getSize()
+            const style: React.CSSProperties = {
+              minWidth: Math.round(size),
+              maxWidth: Math.round(size),
+              width: Math.round(size),
+            }
 
             if (pinned === 'left') {
               style.left = computePinnedOffset(cells, cellIndex, 'left')
-              style.width = size
-              style.zIndex = 10 // z-index для pinned колонок в теле
+              style.zIndex = 10
             } else if (pinned === 'right') {
               style.right = computePinnedOffset(cells, cellIndex, 'right')
-              style.width = size
               style.zIndex = 10
             }
 
@@ -65,6 +67,5 @@ export const DataTableBody = <TData, TValue>({ isLoading, rows, columns }: DataT
       )
     })
   }
-
   return <TableBody>{content}</TableBody>
 }
