@@ -1,84 +1,109 @@
-import { formatISODate, renderSortableHeader } from '@/SalesBudgetPage/columns/helpers.tsx'
+import { formatISODate } from '@/SalesBudgetPage/columns/helpers.tsx'
 import type { SalesBudgetResult } from '@/services/salesStrategy/models.ts'
 import type { ColumnDef } from '@tanstack/react-table'
 
-export const columns: ColumnDef<SalesBudgetResult>[] = [
+interface ColumnMeta {
+  label: string
+}
+
+// Расширяем ColumnDef, чтобы TypeScript знал о meta
+type ExtendedColumnDef = ColumnDef<SalesBudgetResult> & {
+  meta: ColumnMeta
+}
+
+export const columns: ExtendedColumnDef[] = [
   {
     accessorKey: 'administrativeDistrict',
-    header: ({ column }) => renderSortableHeader(column, 'Округ'),
+    header: 'Округ',
+    meta: { label: 'Округ' },
   },
   {
     accessorKey: 'district',
-    header: ({ column }) => renderSortableHeader(column, 'Район'),
+    header: 'Район',
+    meta: { label: 'Район' },
   },
   {
     accessorKey: 'address',
-    header: ({ column }) => renderSortableHeader(column, 'Адрес МКД'),
+    header: 'Адрес МКД',
+    meta: { label: 'Адрес МКД' },
   },
   {
     accessorKey: 'type',
-    header: ({ column }) => renderSortableHeader(column, 'Тип'),
+    header: 'Тип',
+    meta: { label: 'Тип' },
   },
   {
     accessorKey: 'countItem',
-    header: ({ column }) => renderSortableHeader(column, 'Количество в шт на 2025г'),
+    header: 'Количество в шт на 2025г',
+    meta: { label: 'Количество в шт на 2025г' },
   },
   {
     accessorKey: 'currentRemainingUnits',
-    header: ({ column }) => renderSortableHeader(column, 'Остаток на текущий момент, шт'),
+    header: 'Остаток на текущий момент, шт',
+    meta: { label: 'Остаток на текущий момент, шт' },
   },
   {
     accessorKey: 'publishedAuctionsCount',
-    header: ({ column }) => renderSortableHeader(column, 'Опубликовано АУК, шт.'),
+    header: 'Опубликовано АУК, шт.',
+    meta: { label: 'Опубликовано АУК, шт.' },
   },
   {
     accessorKey: 'publishedPublicOffersCount',
-    header: ({ column }) => renderSortableHeader(column, 'Опубликовано ПП, шт.'),
+    header: 'Опубликовано ПП, шт.',
+    meta: { label: 'Опубликовано ПП, шт.' },
   },
   {
     accessorKey: 'remainingToPublish',
-    header: ({ column }) => renderSortableHeader(column, 'Остаток к выставлению шт.'),
+    header: 'Остаток к выставлению шт.',
+    meta: { label: 'Остаток к выставлению шт.' },
   },
   {
     accessorKey: 'averageArea',
     header: 'Средняя квадратура',
+    meta: { label: 'Средняя квадратура' },
   },
   {
     accessorKey: 'forecastedBuildingPermits',
-    header: ({ column }) => renderSortableHeader(column, 'РнС прогнозный'),
+    header: 'РнС прогнозный',
     cell: ({ row }) => (
       <div className="text-right font-medium">{formatISODate(row.getValue('forecastedBuildingPermits'))}</div>
     ),
+    meta: { label: 'РнС прогнозный' },
   },
   {
     accessorKey: 'firstAuctionStartDate',
-    header: ({ column }) => renderSortableHeader(column, 'Старт продаж (1 аукцион)'),
+    header: 'Старт продаж (1 аукцион)',
     cell: ({ row }) => (
       <div className="text-right font-medium">{formatISODate(row.getValue('firstAuctionStartDate'))}</div>
     ),
+    meta: { label: 'Старт продаж (1 аукцион)' },
   },
   {
     accessorKey: 'forecastedCommissioningDate',
-    header: ({ column }) => renderSortableHeader(column, 'Ввод прогнозный'),
+    header: 'Ввод прогнозный',
     cell: ({ row }) => (
       <div className="text-right font-medium">{formatISODate(row.getValue('forecastedCommissioningDate'))}</div>
     ),
+    meta: { label: 'Ввод прогнозный' },
   },
   {
     accessorKey: 'commissioningDatePerPd',
-    header: ({ column }) => renderSortableHeader(column, 'Ввод по ПД'),
+    header: 'Ввод по ПД',
+    meta: { label: 'Ввод по ПД' },
   },
   {
     accessorKey: 'constructionProgressPercent',
-    header: ({ column }) => renderSortableHeader(column, 'Процент строй-готовности'),
+    header: 'Процент строй-готовности',
+    meta: { label: 'Процент строй-готовности' },
   },
   {
     accessorKey: 'liquidityCategory',
-    header: ({ column }) => renderSortableHeader(column, 'Ликвидность'),
+    header: 'Ликвидность',
+    meta: { label: 'Ликвидность' },
   },
   {
     accessorKey: 'startingPrice',
-    header: ({ column }) => renderSortableHeader(column, 'Стартовая цена'),
+    header: 'Стартовая цена',
     cell: ({ row }) => {
       const startingPrice = parseFloat(row.getValue('startingPrice'))
       const formatted = new Intl.NumberFormat('ru-RU', {
@@ -87,9 +112,11 @@ export const columns: ColumnDef<SalesBudgetResult>[] = [
 
       return <div className="text-right font-medium">{formatted}</div>
     },
+    meta: { label: 'Стартовая цена' },
   },
   {
     accessorKey: 'status',
-    header: ({ column }) => renderSortableHeader(column, 'Статус'),
+    header: 'Статус',
+    meta: { label: 'Статус' },
   },
 ]

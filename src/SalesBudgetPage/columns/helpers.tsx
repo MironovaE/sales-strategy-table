@@ -13,7 +13,11 @@ export const formatISODate = (dateStr: string) => {
   return date.toLocaleDateString('ru-RU') // например: "04.09.2025"
 }
 
-export const renderSortableHeader = (column: Column<SalesBudgetResult, unknown>, title: string) => {
+export const renderSortableHeader = (
+  column: Column<SalesBudgetResult, unknown>,
+  title: string,
+  onOpenManageColumns: () => void,
+) => {
   const isSorted = column.getIsSorted()
 
   const handleSortClick = (e: React.MouseEvent) => {
@@ -33,7 +37,7 @@ export const renderSortableHeader = (column: Column<SalesBudgetResult, unknown>,
         >
           <SortableHeaderIcon isSorted={isSorted} />
         </Button>
-        <ColumnHeaderMenu column={column} />
+        <ColumnHeaderMenu column={column} onOpenManageColumns={onOpenManageColumns} />
       </div>
     </div>
   )
