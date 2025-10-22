@@ -22,6 +22,9 @@ export function ColumnHeaderMenu({ column, onOpenManageColumns }: Readonly<Colum
       case 'pin-right':
         column.pin?.('right')
         break
+      case 'unpin':
+        column.pin?.(false)
+        break
       case 'hide':
         column.toggleVisibility?.(false)
         break
@@ -39,7 +42,12 @@ export function ColumnHeaderMenu({ column, onOpenManageColumns }: Readonly<Colum
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8 cursor-pointer" onClick={e => e.stopPropagation()}>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 cursor-pointer focus-visible:ring-0"
+          onClick={e => e.stopPropagation()}
+        >
           <MoreVertical className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
@@ -47,6 +55,7 @@ export function ColumnHeaderMenu({ column, onOpenManageColumns }: Readonly<Colum
         <DropdownMenuItem onSelect={() => handleMenuItemSelect('unsort')}>Отменить сортировку</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => handleMenuItemSelect('pin-left')}>Закрепить слева</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => handleMenuItemSelect('pin-right')}>Закрепить справа</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleMenuItemSelect('unpin')}>Открепить</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => handleMenuItemSelect('hide')}>Скрыть колонку</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => handleMenuItemSelect('manage')}>Управление колонками</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => handleMenuItemSelect('search')}>Поиск</DropdownMenuItem>
