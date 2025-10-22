@@ -4,9 +4,8 @@ import {
   PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from '@/components/ui/pagination'
+import { PaginationNext, PaginationPrevious } from '@/SalesBudgetPage/russianPagination'
 import { type Table } from '@tanstack/react-table'
 
 interface ServerPaginationProps<TData> {
@@ -20,7 +19,7 @@ export function ServerPagination<TData>({ table }: Readonly<ServerPaginationProp
   const getPageNumbers = () => {
     if (pageCount <= 1) return []
 
-    const delta = 10
+    const delta = 2
     const range = []
     const min = Math.max(2, currentPage - delta)
     const max = Math.min(pageCount - 1, currentPage + delta)
